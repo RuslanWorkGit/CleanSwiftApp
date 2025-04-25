@@ -11,28 +11,28 @@ import UIKit
 
 protocol CharacterListBusinessLogic
 {
-  func doSomething(request: CharacterList.Something.Request)
+    func doSomething(request: CharacterList.FetchCharacter.Request)
 }
 
 protocol CharacterListDataStore
 {
-  //var name: String { get set }
+    //var name: String { get set }
 }
 
 class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStore
 {
-  var presenter: CharacterListPresentationLogic?
-  var worker: CharacterListWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: CharacterList.Something.Request)
-  {
-    worker = CharacterListWorker()
-    worker?.doSomeWork()
+    var presenter: CharacterListPresentationLogic?
+    var worker: CharacterListWorker?
+    //var name: String = ""
     
-    let response = CharacterList.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    // MARK: Do something
+    
+    func doSomething(request: CharacterList.FetchCharacter.Request)
+    {
+        worker = CharacterListWorker()
+        let characters = worker?.fetchCharacters() ?? []
+        
+        let response = CharacterList.FetchCharacter.Response(characters: characters)
+        presenter?.presentSomething(response: response)
+    }
 }

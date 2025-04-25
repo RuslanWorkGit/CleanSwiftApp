@@ -11,7 +11,13 @@ import UIKit
 
 class CharacterListWorker
 {
-  func doSomeWork()
-  {
-  }
+    func fetchCharacters() -> [CharacterList.Character] {
+        return [
+            CharacterList.Character(name: "Tommy"),
+            CharacterList.Character(name: "Bommy"),
+            CharacterList.Character(name: "Nommy"),
+            CharacterList.Character(name: "Kommy"),
+            CharacterList.Character(name: "Lommy")
+        ]
+    }
 }
