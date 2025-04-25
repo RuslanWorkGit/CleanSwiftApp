@@ -30,9 +30,18 @@ class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStor
     func doSomething(request: CharacterList.FetchCharacter.Request)
     {
         worker = CharacterListWorker()
-        let characters = worker?.fetchCharacters() ?? []
+//        let characters = worker?.fetchCharacters() ?? []
+        worker?.fetchNetworkCharacter { result in
+            switch result {
+            case .success(let success):
+                let response = CharacterList.FetchCharacter.Response(characters: success)
+                self.presenter?.presentSomething(response: response)
+            case .failure(let failure):
+                print("Error fetching character: \(failure)")
+            }
+        }
         
-        let response = CharacterList.FetchCharacter.Response(characters: characters)
-        presenter?.presentSomething(response: response)
+//        let response = CharacterList.FetchCharacter.Response(characters: characters)
+//        presenter?.presentSomething(response: response)
     }
 }

@@ -12,9 +12,9 @@ import UIKit
 enum CharacterList
 {
     // MARK: Use cases
-    struct Character {
-        let name: String
-    }
+//    struct Character {
+//        let name: String
+//    }
     
     struct CharacterDisplay {
         let name: String

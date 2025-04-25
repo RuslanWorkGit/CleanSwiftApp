@@ -11,13 +11,19 @@ import UIKit
 
 class CharacterListWorker
 {
-    func fetchCharacters() -> [CharacterList.Character] {
-        return [
-            CharacterList.Character(name: "Tommy"),
-            CharacterList.Character(name: "Bommy"),
-            CharacterList.Character(name: "Nommy"),
-            CharacterList.Character(name: "Kommy"),
-            CharacterList.Character(name: "Lommy")
-        ]
+//    func fetchCharacters() -> [CharacterList.Character] {
+//        return [
+//            CharacterList.Character(name: "Tommy"),
+//            CharacterList.Character(name: "Bommy"),
+//            CharacterList.Character(name: "Nommy"),
+//            CharacterList.Character(name: "Kommy"),
+//            CharacterList.Character(name: "Lommy")
+//        ]
+//    }
+    
+    func fetchNetworkCharacter(completion: @escaping (Result<[Character], Error>) -> Void) {
+        NetworkService.shared.fetchData { result in
+            completion(result)
+        }
     }
 }
