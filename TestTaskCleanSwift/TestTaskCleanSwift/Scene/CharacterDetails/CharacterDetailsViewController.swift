@@ -19,6 +19,11 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
     var router: (NSObjectProtocol & CharacterDetailsRoutingLogic & CharacterDetailsDataPassing)?
     
     private let characterNameLabel = UILabel()
+    private let characterStatusLabel = UILabel()
+    private let characterSpeciesLabel = UILabel()
+    private let characterGenderLabel = UILabel()
+    private let characterImageView = UIImageView()
+    
     // MARK: Object lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -67,12 +72,40 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         view.backgroundColor = .systemBackground
         
         view.addSubview(characterNameLabel)
+        view.addSubview(characterStatusLabel)
+        view.addSubview(characterSpeciesLabel)
+        view.addSubview(characterGenderLabel)
+        view.addSubview(characterImageView)
         
         characterNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        characterStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        characterSpeciesLabel.translatesAutoresizingMaskIntoConstraints = false
+        characterGenderLabel.translatesAutoresizingMaskIntoConstraints = false
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        characterNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
         NSLayoutConstraint.activate([
-            characterNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            characterNameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            characterNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            characterNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            characterNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            characterImageView.topAnchor.constraint(equalTo: characterNameLabel.bottomAnchor, constant: 16),
+            characterImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            characterImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            characterImageView.heightAnchor.constraint(equalToConstant: 200),
+            
+            characterStatusLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 16),
+            characterStatusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            characterStatusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            characterSpeciesLabel.topAnchor.constraint(equalTo: characterStatusLabel.bottomAnchor, constant: 16),
+            characterSpeciesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            characterSpeciesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            characterGenderLabel.topAnchor.constraint(equalTo: characterSpeciesLabel.bottomAnchor, constant: 16),
+            characterGenderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            characterGenderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
         ])
     }
     
@@ -86,9 +119,6 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         
     }
     
-    // MARK: Do something
-    
-    //@IBOutlet weak var nameTextField: UITextField!
     
     func doSomething()
     {
@@ -99,5 +129,18 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
     func displayCharacterDetails(viewModel: CharacterDetails.FetchCharacter.ViewModel)
     {
         characterNameLabel.text = viewModel.name
+        characterStatusLabel.text = "Status: \(viewModel.status)"
+        characterSpeciesLabel.text = "Species: \(viewModel.species)"
+        characterGenderLabel.text = "Gender: \(viewModel.gender)"
+        
+        if let url = URL(string: viewModel.imageUrl) {
+            URLSession.shared.dataTask(with: url) { data, _ , error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.characterImageView.image = image
+                    }
+                }
+            }.resume()
+        }
     }
 }

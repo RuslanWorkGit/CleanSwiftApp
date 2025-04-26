@@ -55,9 +55,9 @@ class CharacterListRouter: NSObject, CharacterListRoutingLogic, CharacterListDat
         if let selectedCharacter = dataStore?.selectedCharacter {
             let detailsCharacter = CharacterDetails.CharacterDisplay(
                 name: selectedCharacter.name,
-                status: "",
-                species: "",
-                gender: "",
+                status: selectedCharacter.status,
+                species: selectedCharacter.species,
+                gender: selectedCharacter.gender,
                 imageUrl: selectedCharacter.image
             )
             destinationInteractor.character = detailsCharacter

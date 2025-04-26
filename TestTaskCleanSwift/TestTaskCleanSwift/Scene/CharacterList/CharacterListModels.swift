@@ -18,7 +18,10 @@ enum CharacterList
     
     struct CharacterDisplay {
         let name: String
+        let status: String
         let image: String
+        let species: String
+        let gender: String
     }
     
     

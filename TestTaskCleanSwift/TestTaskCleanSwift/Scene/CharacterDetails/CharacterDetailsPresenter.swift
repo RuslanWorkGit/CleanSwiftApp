@@ -28,6 +28,8 @@ class CharacterDetailsPresenter: CharacterDetailsPresentationLogic
             gender: response.character.gender,
             imageUrl: response.character.imageUrl
         )
+        
+        print(viewModel)
         viewController?.displayCharacterDetails(viewModel: viewModel)
     }
 }

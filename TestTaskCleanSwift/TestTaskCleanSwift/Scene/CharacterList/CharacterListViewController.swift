@@ -126,6 +126,7 @@ extension CharacterListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selected row: \(indexPath.row) \(characters[indexPath.row].name)")
         router?.dataStore?.selectedCharacter = characters[indexPath.row]
+        print(characters[indexPath.row])
         router?.routeToCharacterDetails()
     }
 }
