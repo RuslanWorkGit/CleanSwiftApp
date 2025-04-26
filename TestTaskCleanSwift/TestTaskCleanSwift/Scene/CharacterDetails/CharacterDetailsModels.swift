@@ -10,18 +10,32 @@ import UIKit
 
 enum CharacterDetails
 {
-  // MARK: Use cases
-  
-  enum Something
-  {
-    struct Request
-    {
+    // MARK: Use cases
+    
+    struct CharacterDisplay {
+        let name: String
+        let status: String
+        let species: String
+        let gender: String
+        let imageUrl: String
     }
-    struct Response
+    
+    enum FetchCharacter
     {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let character: CharacterDisplay
+        }
+        struct ViewModel
+        {
+            let name: String
+            let status: String
+            let species: String
+            let gender: String
+            let imageUrl: String
+        }
     }
-    struct ViewModel
-    {
-    }
-  }
 }

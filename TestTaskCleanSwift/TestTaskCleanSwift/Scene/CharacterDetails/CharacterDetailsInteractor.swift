@@ -10,28 +10,30 @@ import UIKit
 
 protocol CharacterDetailsBusinessLogic
 {
-  func doSomething(request: CharacterDetails.Something.Request)
+    func fetchCharacterDetails(request: CharacterDetails.FetchCharacter.Request)
 }
 
 protocol CharacterDetailsDataStore
 {
-  //var name: String { get set }
+    var character: CharacterDetails.CharacterDisplay? { get set }
 }
 
 class CharacterDetailsInteractor: CharacterDetailsBusinessLogic, CharacterDetailsDataStore
 {
-  var presenter: CharacterDetailsPresentationLogic?
-  var worker: CharacterDetailsWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: CharacterDetails.Something.Request)
-  {
-    worker = CharacterDetailsWorker()
-    worker?.doSomeWork()
     
-    let response = CharacterDetails.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    
+    var presenter: CharacterDetailsPresentationLogic?
+    var worker: CharacterDetailsWorker?
+    
+    var character: CharacterDetails.CharacterDisplay?
+    
+    // MARK: Do something
+    
+    func fetchCharacterDetails(request: CharacterDetails.FetchCharacter.Request)
+    {
+        guard let character = character else { return }
+        
+        let response = CharacterDetails.FetchCharacter.Response(character: character)
+        presenter?.presentCharacterDetails(response: response)
+    }
 }

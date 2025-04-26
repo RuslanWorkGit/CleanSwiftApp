@@ -11,7 +11,7 @@ import UIKit
 
 protocol CharacterListPresentationLogic
 {
-    func presentSomething(response: CharacterList.FetchCharacter.Response)
+    func presentCharacters(response: CharacterList.FetchCharacter.Response)
 }
 
 class CharacterListPresenter: CharacterListPresentationLogic
@@ -20,13 +20,13 @@ class CharacterListPresenter: CharacterListPresentationLogic
     
     // MARK: Do something
     
-    func presentSomething(response: CharacterList.FetchCharacter.Response)
+    func presentCharacters(response: CharacterList.FetchCharacter.Response)
     {
         let rows = response.characters.map { character in
-            return CharacterList.CharacterDisplay(name: character.name)
+            return CharacterList.CharacterDisplay(name: character.name, image: character.image)
         }
         
         let viewModel = CharacterList.FetchCharacter.ViewModel(displayCharacter: rows)
-        viewController?.displaySomething(viewModel: viewModel)
+        viewController?.displayCharacter(viewModel: viewModel)
     }
 }

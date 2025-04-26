@@ -27,7 +27,22 @@ class CustomCell: UITableViewCell {
         fatalError("init(coder:) has not benn implemented")
     }
     
+    func configure(with chardacter: CharacterList.CharacterDisplay) {
+        characterNameLabel.text = chardacter.name
+        
+        if let url = URL(string: chardacter.image) {
+            URLSession.shared.dataTask(with: url) { data, _ , error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.characterImageView.image = image
+                    }
+                }
+            }.resume()
+        }
+    }
+    
     func configureImageView() {
+        characterImageView.contentMode = .scaleToFill
         characterImageView.layer.cornerRadius = 10
         characterImageView.clipsToBounds = true
         
@@ -44,7 +59,7 @@ class CustomCell: UITableViewCell {
             characterImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             characterImageView.heightAnchor.constraint(equalToConstant: 80),
-            characterImageView.widthAnchor.constraint(equalTo: characterImageView.heightAnchor, multiplier: 16/9)
+            characterImageView.widthAnchor.constraint(equalTo: characterImageView.heightAnchor, multiplier: 4/3)
         ])
     }
     

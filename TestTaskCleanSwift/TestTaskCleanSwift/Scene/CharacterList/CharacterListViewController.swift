@@ -11,7 +11,7 @@ import UIKit
 
 protocol CharacterListDisplayLogic: class
 {
-    func displaySomething(viewModel: CharacterList.FetchCharacter.ViewModel)
+    func displayCharacter(viewModel: CharacterList.FetchCharacter.ViewModel)
 }
 
 class CharacterListViewController: UIViewController, CharacterListDisplayLogic
@@ -84,17 +84,14 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
         doSomething()
     }
     
-    // MARK: Do something
-    
-    //@IBOutlet weak var nameTextField: UITextField!
-    
     func doSomething()
     {
         let request = CharacterList.FetchCharacter.Request()
-        interactor?.doSomething(request: request)
+        interactor?.doCharacters(request: request)
+        
     }
     
-    func displaySomething(viewModel: CharacterList.FetchCharacter.ViewModel)
+    func displayCharacter(viewModel: CharacterList.FetchCharacter.ViewModel)
     {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -113,7 +110,7 @@ extension CharacterListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
-        cell.characterNameLabel.text = characters[indexPath.row].name
+        cell.configure(with: characters[indexPath.row])
         return cell
     }
     
@@ -121,5 +118,14 @@ extension CharacterListViewController: UITableViewDataSource {
 }
 
 extension CharacterListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Selected row: \(indexPath.row) \(characters[indexPath.row].name)")
+        router?.dataStore?.selectedCharacter = characters[indexPath.row]
+        router?.routeToCharacterDetails()
+    }
 }

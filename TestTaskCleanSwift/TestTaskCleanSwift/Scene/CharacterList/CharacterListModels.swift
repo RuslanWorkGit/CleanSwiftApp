@@ -18,7 +18,7 @@ enum CharacterList
     
     struct CharacterDisplay {
         let name: String
-        let image: Data
+        let image: String
     }
     
     

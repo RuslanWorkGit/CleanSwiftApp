@@ -11,31 +11,33 @@ import UIKit
 
 protocol CharacterListBusinessLogic
 {
-    func doSomething(request: CharacterList.FetchCharacter.Request)
+    func doCharacters(request: CharacterList.FetchCharacter.Request)
 }
 
 protocol CharacterListDataStore
 {
-    //var name: String { get set }
+    var selectedCharacter: CharacterList.CharacterDisplay? { get set }
 }
 
 class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStore
 {
+    
     var presenter: CharacterListPresentationLogic?
     var worker: CharacterListWorker?
-    //var name: String = ""
+    
+    var selectedCharacter: CharacterList.CharacterDisplay?
     
     // MARK: Do something
     
-    func doSomething(request: CharacterList.FetchCharacter.Request)
+    func doCharacters(request: CharacterList.FetchCharacter.Request)
     {
         worker = CharacterListWorker()
-//        let characters = worker?.fetchCharacters() ?? []
+
         worker?.fetchNetworkCharacter { result in
             switch result {
             case .success(let success):
                 let response = CharacterList.FetchCharacter.Response(characters: success)
-                self.presenter?.presentSomething(response: response)
+                self.presenter?.presentCharacters(response: response)
             case .failure(let failure):
                 print("Error fetching character: \(failure)")
             }

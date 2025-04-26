@@ -9,18 +9,25 @@ import UIKit
 
 protocol CharacterDetailsPresentationLogic
 {
-  func presentSomething(response: CharacterDetails.Something.Response)
+    func presentCharacterDetails(response: CharacterDetails.FetchCharacter.Response)
 }
 
 class CharacterDetailsPresenter: CharacterDetailsPresentationLogic
 {
-  weak var viewController: CharacterDetailsDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentSomething(response: CharacterDetails.Something.Response)
-  {
-    let viewModel = CharacterDetails.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+    weak var viewController: CharacterDetailsDisplayLogic?
+    
+    // MARK: Do something
+    
+    func presentCharacterDetails(response: CharacterDetails.FetchCharacter.Response)
+    {
+        
+        let viewModel = CharacterDetails.FetchCharacter.ViewModel(
+            name: response.character.name,
+            status: response.character.status,
+            species: response.character.species,
+            gender: response.character.gender,
+            imageUrl: response.character.imageUrl
+        )
+        viewController?.displayCharacterDetails(viewModel: viewModel)
+    }
 }
