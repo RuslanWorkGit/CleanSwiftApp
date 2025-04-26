@@ -29,7 +29,7 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         view.addSubview(tableView)
     }
     
@@ -96,8 +96,13 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
     
     func displaySomething(viewModel: CharacterList.FetchCharacter.ViewModel)
     {
-        characters = viewModel.displayCharacter
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.characters = viewModel.displayCharacter
+            self.tableView.reloadData()
+        }
+        
     }
 }
 
@@ -107,8 +112,8 @@ extension CharacterListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = characters[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
+        cell.characterNameLabel.text = characters[indexPath.row].name
         return cell
     }
     
