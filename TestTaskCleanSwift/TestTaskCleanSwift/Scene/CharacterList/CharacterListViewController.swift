@@ -21,6 +21,7 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
     
     private let tableView = UITableView()
     private var characters: [CharacterList.CharacterDisplay] = []
+    private var isLoading = false
     
     //MARK: - Setup TableView
     
@@ -96,10 +97,21 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.characters = viewModel.displayCharacter
+            self.characters.append(contentsOf: viewModel.displayCharacter)
             self.tableView.reloadData()
+            
+            isLoading = false
         }
         
+    }
+    
+    private func loadNextPage() {
+        guard !isLoading else { return }
+        guard let nextPage = router?.dataStore?.nextPageUrl else { return }
+        
+        isLoading = true
+        let request = CharacterList.FetchCharacter.Request(urlString: nextPage)
+        interactor?.doCharacters(request: request)
     }
 }
 
@@ -128,5 +140,15 @@ extension CharacterListViewController: UITableViewDelegate {
         router?.dataStore?.selectedCharacter = characters[indexPath.row]
         print(characters[indexPath.row])
         router?.routeToCharacterDetails()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - frameHeight - 100 {
+            loadNextPage()
+        }
     }
 }

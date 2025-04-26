@@ -30,8 +30,9 @@ class NetworkService {
     
     static let shared = NetworkService()
     
-    func fetchData(completion: @escaping (Result<[Character], Error>) -> Void) {
-        let urlString = "https://rickandmortyapi.com/api/character"
+    func fetchData(urlString: String ,completion: @escaping (Result<CharacterResponse, Error>) -> Void) {
+//        let defaultString = "https://rickandmortyapi.com/api/character"
+//        let finalUrl = urlString ?? defaultString
         
         guard let url = URL(string: urlString) else { return }
         
@@ -45,12 +46,14 @@ class NetworkService {
                 print("Error: \(responseError)")
             }
             
-            guard let responseData = data else { return }
+            guard let responseData = data else {
+                return
+            }
             
             do {
                 let decoder = JSONDecoder()
                 let characterResponse = try decoder.decode(CharacterResponse.self, from: responseData)
-                completion(.success(characterResponse.results))
+                completion(.success(characterResponse))
             } catch {
                 completion(.failure(error))
             }

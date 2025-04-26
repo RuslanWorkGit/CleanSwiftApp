@@ -85,6 +85,10 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         
         characterNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
+        characterImageView.layer.cornerRadius = 12
+        characterImageView.clipsToBounds = true
+        characterImageView.contentMode = .scaleToFill
+        
         NSLayoutConstraint.activate([
             characterNameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             characterNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),

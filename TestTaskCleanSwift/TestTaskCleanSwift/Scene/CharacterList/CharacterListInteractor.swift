@@ -17,6 +17,7 @@ protocol CharacterListBusinessLogic
 protocol CharacterListDataStore
 {
     var selectedCharacter: CharacterList.CharacterDisplay? { get set }
+    var nextPageUrl: String? { get set }
 }
 
 class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStore
@@ -24,6 +25,7 @@ class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStor
     
     var presenter: CharacterListPresentationLogic?
     var worker: CharacterListWorker?
+    var nextPageUrl: String?
     
     var selectedCharacter: CharacterList.CharacterDisplay?
     
@@ -33,17 +35,17 @@ class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStor
     {
         worker = CharacterListWorker()
 
-        worker?.fetchNetworkCharacter { result in
+        worker?.fetchNetworkCharacter(urlString: request.urlString) { result in
             switch result {
             case .success(let success):
-                let response = CharacterList.FetchCharacter.Response(characters: success)
+                self.nextPageUrl = success.info.next
+                
+                let response = CharacterList.FetchCharacter.Response(characters: success.results)
                 self.presenter?.presentCharacters(response: response)
             case .failure(let failure):
                 print("Error fetching character: \(failure)")
             }
         }
-        
-//        let response = CharacterList.FetchCharacter.Response(characters: characters)
-//        presenter?.presentSomething(response: response)
+
     }
 }

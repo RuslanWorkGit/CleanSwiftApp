@@ -28,6 +28,7 @@ enum CharacterList
     
     enum FetchCharacter {
         struct Request {
+            var urlString: String?
         }
         struct Response {
             let characters: [Character]

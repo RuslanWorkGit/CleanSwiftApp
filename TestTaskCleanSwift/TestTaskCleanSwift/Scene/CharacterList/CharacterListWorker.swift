@@ -11,18 +11,12 @@ import UIKit
 
 class CharacterListWorker
 {
-//    func fetchCharacters() -> [CharacterList.Character] {
-//        return [
-//            CharacterList.Character(name: "Tommy"),
-//            CharacterList.Character(name: "Bommy"),
-//            CharacterList.Character(name: "Nommy"),
-//            CharacterList.Character(name: "Kommy"),
-//            CharacterList.Character(name: "Lommy")
-//        ]
-//    }
     
-    func fetchNetworkCharacter(completion: @escaping (Result<[Character], Error>) -> Void) {
-        NetworkService.shared.fetchData { result in
+    func fetchNetworkCharacter(urlString: String?, completion: @escaping (Result<CharacterResponse, Error>) -> Void) {
+        let defaultString = "https://rickandmortyapi.com/api/character"
+        let finalUrl = urlString ?? defaultString
+        
+        NetworkService.shared.fetchData(urlString: finalUrl) { result in
             completion(result)
         }
     }
