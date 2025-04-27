@@ -41,16 +41,6 @@ class CustomCell: UITableViewCell {
                 }
             }.resume()
         }
-        
-//        if let url = URL(string: chardacter.image) {
-//            URLSession.shared.dataTask(with: url) { data, _ , error in
-//                if let data = data, let image = UIImage(data: data) {
-//                    DispatchQueue.main.async {
-//                        self.characterImageView.image = image
-//                    }
-//                }
-//            }.resume()
-//        }
     }
     
     func configureImageView() {

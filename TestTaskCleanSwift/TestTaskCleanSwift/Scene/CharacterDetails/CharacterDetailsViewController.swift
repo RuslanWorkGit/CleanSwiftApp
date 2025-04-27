@@ -136,15 +136,22 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         characterStatusLabel.text = "Status: \(viewModel.status)"
         characterSpeciesLabel.text = "Species: \(viewModel.species)"
         characterGenderLabel.text = "Gender: \(viewModel.gender)"
+        characterImageView.image = UIImage(data: viewModel.image)
         
-        if let url = URL(string: viewModel.imageUrl) {
-            URLSession.shared.dataTask(with: url) { data, _ , error in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self.characterImageView.image = image
-                    }
-                }
-            }.resume()
+        if let image = UIImage(data: viewModel.image), !viewModel.image.isEmpty {
+            characterImageView.image = image
+        } else {
+            characterImageView.image = UIImage(named: "rickAndMorty")
         }
+        
+//        if let url = URL(string: viewModel.imageUrl) {
+//            URLSession.shared.dataTask(with: url) { data, _ , error in
+//                if let data = data, let image = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.characterImageView.image = image
+//                    }
+//                }
+//            }.resume()
+//        }
     }
 }

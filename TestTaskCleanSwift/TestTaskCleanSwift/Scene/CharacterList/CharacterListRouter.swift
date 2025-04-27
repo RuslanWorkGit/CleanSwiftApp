@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 @objc protocol CharacterListRoutingLogic
 {
@@ -53,48 +54,37 @@ class CharacterListRouter: NSObject, CharacterListRoutingLogic, CharacterListDat
         destinationRouter.dataStore = destinationInteractor
         
         if let selectedCharacter = dataStore?.selectedCharacter {
+            
+            var imageData: Data?
+            
+            if NetworkMonitor.shared.isConnected {
+                if let urlString = selectedCharacter.imageURL, let url = URL(string: urlString), let data = try? Data(contentsOf: url) {
+                    imageData = data
+                } else {
+                    imageData = selectedCharacter.imageData
+                }
+            } else {
+                let request: NSFetchRequest<CDCharacter> = CDCharacter.fetchRequest()
+                request.predicate = NSPredicate(format: "id == %d", selectedCharacter.id)
+                let saved = CoreDataService.shared.fetchDataFromEntity(CDCharacter.self, fetchRequest: request)
+                imageData = saved.first?.image
+                print("IMAGE DATA \(imageData)")
+            }
+            
+            let finalImage = imageData ?? Data() //empty image
+            
             let detailsCharacter = CharacterDetails.CharacterDisplay(
                 name: selectedCharacter.name,
                 status: selectedCharacter.status,
                 species: selectedCharacter.species,
                 gender: selectedCharacter.gender,
-                imageUrl: selectedCharacter.imageURL ?? "no"
+                image: finalImage
             )
+            
             destinationInteractor.character = detailsCharacter
+            
         }
         
         viewController?.navigationController?.pushViewController(destinationVC, animated: true)
     }
-
-    
-    // MARK: Routing
-    
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
-    //{
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
-    
-    // MARK: Navigation
-    
-    //func navigateToSomewhere(source: CharacterListViewController, destination: SomewhereViewController)
-    //{
-    //  source.show(destination, sender: nil)
-    //}
-    
-    // MARK: Passing data
-    
-    //func passDataToSomewhere(source: CharacterListDataStore, destination: inout SomewhereDataStore)
-    //{
-    //  destination.name = source.name
-    //}
 }

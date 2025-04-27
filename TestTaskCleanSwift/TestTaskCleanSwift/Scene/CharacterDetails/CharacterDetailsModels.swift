@@ -17,7 +17,7 @@ enum CharacterDetails
         let status: String
         let species: String
         let gender: String
-        let imageUrl: String
+        let image: Data
     }
     
     enum FetchCharacter
@@ -35,7 +35,7 @@ enum CharacterDetails
             let status: String
             let species: String
             let gender: String
-            let imageUrl: String
+            let image: Data
         }
     }
 }

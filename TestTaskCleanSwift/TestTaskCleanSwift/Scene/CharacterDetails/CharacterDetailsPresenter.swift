@@ -26,10 +26,10 @@ class CharacterDetailsPresenter: CharacterDetailsPresentationLogic
             status: response.character.status,
             species: response.character.species,
             gender: response.character.gender,
-            imageUrl: response.character.imageUrl
+            image: response.character.image
         )
         
-        print(viewModel)
+        //print(viewModel)
         viewController?.displayCharacterDetails(viewModel: viewModel)
     }
 }
