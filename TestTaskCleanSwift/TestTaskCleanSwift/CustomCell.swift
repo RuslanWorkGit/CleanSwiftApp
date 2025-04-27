@@ -30,15 +30,27 @@ class CustomCell: UITableViewCell {
     func configure(with chardacter: CharacterList.CharacterDisplay) {
         characterNameLabel.text = chardacter.name
         
-        if let url = URL(string: chardacter.image) {
+        if let imageData = chardacter.imageData {
+            self.characterImageView.image = UIImage(data: imageData)
+        } else if let urlString = chardacter.imageURL, let url = URL(string: urlString) {
             URLSession.shared.dataTask(with: url) { data, _ , error in
-                if let data = data, let image = UIImage(data: data) {
+                if let data = data, let imageData = UIImage(data: data) {
                     DispatchQueue.main.async {
-                        self.characterImageView.image = image
+                        self.characterImageView.image = imageData
                     }
                 }
             }.resume()
         }
+        
+//        if let url = URL(string: chardacter.image) {
+//            URLSession.shared.dataTask(with: url) { data, _ , error in
+//                if let data = data, let image = UIImage(data: data) {
+//                    DispatchQueue.main.async {
+//                        self.characterImageView.image = image
+//                    }
+//                }
+//            }.resume()
+//        }
     }
     
     func configureImageView() {

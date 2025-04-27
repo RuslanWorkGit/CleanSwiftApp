@@ -12,16 +12,18 @@ import UIKit
 enum CharacterList
 {
     // MARK: Use cases
-//    struct Character {
-//        let name: String
-//    }
+    //    struct Character {
+    //        let name: String
+    //    }
     
     struct CharacterDisplay {
+        let id: Int
         let name: String
         let status: String
-        let image: String
         let species: String
         let gender: String
+        let imageURL: String?
+        let imageData: Data?
     }
     
     

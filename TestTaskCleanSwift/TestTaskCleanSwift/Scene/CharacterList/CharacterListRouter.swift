@@ -58,7 +58,7 @@ class CharacterListRouter: NSObject, CharacterListRoutingLogic, CharacterListDat
                 status: selectedCharacter.status,
                 species: selectedCharacter.species,
                 gender: selectedCharacter.gender,
-                imageUrl: selectedCharacter.image
+                imageUrl: selectedCharacter.imageURL ?? "no"
             )
             destinationInteractor.character = detailsCharacter
         }

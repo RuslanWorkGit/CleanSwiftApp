@@ -95,7 +95,6 @@ extension CoreDataService {
     
     func deleteRecords<T>(_ type: T.Type, context: NSManagedObjectContext? = nil, fetchRequest: NSFetchRequest<T>) where T: NSManagedObject {
         if let context = context {
-
             let resultToDelete = fetchDataFromEntity(T.self, context: context, fetchRequest: fetchRequest, sort: nil, wantFault: false)
             
             if !resultToDelete.isEmpty {

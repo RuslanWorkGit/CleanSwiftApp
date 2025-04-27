@@ -34,18 +34,27 @@ class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStor
     func doCharacters(request: CharacterList.FetchCharacter.Request)
     {
         worker = CharacterListWorker()
-
-        worker?.fetchNetworkCharacter(urlString: request.urlString) { result in
-            switch result {
-            case .success(let success):
-                self.nextPageUrl = success.info.next
+        
+        if NetworkMonitor.shared.isConnected {
+            
+            worker?.fetchNetworkCharacter(urlString: request.urlString) { results in
                 
-                let response = CharacterList.FetchCharacter.Response(characters: success.results)
-                self.presenter?.presentCharacters(response: response)
-            case .failure(let failure):
-                print("Error fetching character: \(failure)")
+                switch results {
+                case .success(let success):
+                    self.nextPageUrl = success.info.next
+                    let characters = success.results
+                    
+                    self.worker?.saveCharacterToCoreData(characters: characters)
+                    let response = CharacterList.FetchCharacter.Response(characters: characters)
+                    self.presenter?.presentCharacters(response: response)
+                case .failure(let failure):
+                    print("Error fetching character: \(failure)")
+                }
             }
+        } else {
+            let savedCharacters = worker?.fetchCharacterFromCoreData() ?? []
+            let response = CharacterList.FetchCharacter.Response(characters: savedCharacters)
+            self.presenter?.presentCharacters(response: response)
         }
-
     }
 }

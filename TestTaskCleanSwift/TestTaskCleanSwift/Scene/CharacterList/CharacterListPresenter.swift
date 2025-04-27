@@ -22,8 +22,12 @@ class CharacterListPresenter: CharacterListPresentationLogic
     
     func presentCharacters(response: CharacterList.FetchCharacter.Response)
     {
+
+        
         let rows = response.characters.map { character in
-            return CharacterList.CharacterDisplay(name: character.name, status: character.status, image: character.image, species: character.species, gender: character.gender)
+            
+            return CharacterList.CharacterDisplay(id: character.id, name: character.name, status: character.status, species: character.species, gender: character.gender, imageURL: character.imageURL, imageData: character.imageData)
+            
         }
         
         let viewModel = CharacterList.FetchCharacter.ViewModel(displayCharacter: rows)
