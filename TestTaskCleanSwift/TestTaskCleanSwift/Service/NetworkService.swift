@@ -62,9 +62,6 @@ class NetworkService {
     static let shared = NetworkService()
     
     func fetchData(urlString: String ,completion: @escaping (Result<CharacterResponse, Error>) -> Void) {
-        //        let defaultString = "https://rickandmortyapi.com/api/character"
-        //        let finalUrl = urlString ?? defaultString
-        
         guard let url = URL(string: urlString) else { return }
         
         var urlRequest = URLRequest(url: url)

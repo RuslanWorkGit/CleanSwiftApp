@@ -50,12 +50,6 @@ class CoreDataService: NSObject {
         taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return taskContext
     }()
-    
-    lazy var pivateContext: NSManagedObjectContext = {
-        let privateChildContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateChildContext.persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
-        return privateChildContext
-    }()
 }
 
 extension CoreDataService {

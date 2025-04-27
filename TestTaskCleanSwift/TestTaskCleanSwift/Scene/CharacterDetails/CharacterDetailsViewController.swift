@@ -54,20 +54,6 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         router.dataStore = interactor
     }
     
-    
-    
-    // MARK: Routing
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if let scene = segue.identifier {
-            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-            if let router = router, router.responds(to: selector) {
-                router.perform(selector, with: segue)
-            }
-        }
-    }
-    
     func setupUI() {
         view.backgroundColor = .systemBackground
         
@@ -143,15 +129,6 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         } else {
             characterImageView.image = UIImage(named: "rickAndMorty")
         }
-        
-//        if let url = URL(string: viewModel.imageUrl) {
-//            URLSession.shared.dataTask(with: url) { data, _ , error in
-//                if let data = data, let image = UIImage(data: data) {
-//                    DispatchQueue.main.async {
-//                        self.characterImageView.image = image
-//                    }
-//                }
-//            }.resume()
-//        }
+    
     }
 }
