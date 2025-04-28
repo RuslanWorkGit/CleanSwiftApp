@@ -70,11 +70,11 @@ class CharacterListViewController: UIViewController, CharacterListDisplayLogic
     {
         super.viewDidLoad()
         setupTableView()
-        doSomething()
+        doRequest()
         self.title = "Rick and Morty"
     }
     
-    func doSomething()
+    func doRequest()
     {
         let request = CharacterList.FetchCharacter.Request()
         interactor?.doCharacters(request: request)

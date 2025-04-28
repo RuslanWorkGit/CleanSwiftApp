@@ -17,8 +17,7 @@ protocol CharacterListPresentationLogic
 class CharacterListPresenter: CharacterListPresentationLogic
 {
     weak var viewController: CharacterListDisplayLogic?
-    
-    // MARK: Do something
+
     
     func presentCharacters(response: CharacterList.FetchCharacter.Response)
     {

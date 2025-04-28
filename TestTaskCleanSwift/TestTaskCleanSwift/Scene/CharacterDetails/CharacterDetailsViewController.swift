@@ -70,6 +70,7 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
         characterImageView.translatesAutoresizingMaskIntoConstraints = false
         
         characterNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        characterNameLabel.textAlignment = .center
         
         characterImageView.layer.cornerRadius = 12
         characterImageView.clipsToBounds = true
@@ -83,7 +84,8 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
             characterImageView.topAnchor.constraint(equalTo: characterNameLabel.bottomAnchor, constant: 16),
             characterImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             characterImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            characterImageView.heightAnchor.constraint(equalToConstant: 200),
+//            characterImageView.heightAnchor.constraint(equalToConstant: 200),
+            characterImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             
             characterStatusLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 16),
             characterStatusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
@@ -105,12 +107,12 @@ class CharacterDetailsViewController: UIViewController, CharacterDetailsDisplayL
     {
         super.viewDidLoad()
         setupUI()
-        doSomething()
+        doRequest()
         
     }
     
     
-    func doSomething()
+    func doRequest()
     {
         let request = CharacterDetails.FetchCharacter.Request()
         interactor?.fetchCharacterDetails(request: request)
