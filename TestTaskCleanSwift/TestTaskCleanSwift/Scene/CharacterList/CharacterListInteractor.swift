@@ -28,8 +28,7 @@ class CharacterListInteractor: CharacterListBusinessLogic, CharacterListDataStor
     var nextPageUrl: String?
     
     var selectedCharacter: CharacterList.CharacterDisplay?
-    
-    // MARK: Do something
+
     
     func doCharacters(request: CharacterList.FetchCharacter.Request)
     {

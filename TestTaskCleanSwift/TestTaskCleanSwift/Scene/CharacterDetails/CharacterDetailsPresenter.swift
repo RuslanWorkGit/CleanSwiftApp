@@ -16,8 +16,6 @@ class CharacterDetailsPresenter: CharacterDetailsPresentationLogic
 {
     weak var viewController: CharacterDetailsDisplayLogic?
     
-    // MARK: Do something
-    
     func presentCharacterDetails(response: CharacterDetails.FetchCharacter.Response)
     {
         

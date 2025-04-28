@@ -27,8 +27,7 @@ class CharacterDetailsInteractor: CharacterDetailsBusinessLogic, CharacterDetail
     
     var character: CharacterDetails.CharacterDisplay?
     
-    // MARK: Do something
-    
+
     func fetchCharacterDetails(request: CharacterDetails.FetchCharacter.Request)
     {
         guard let character = character else { return }
