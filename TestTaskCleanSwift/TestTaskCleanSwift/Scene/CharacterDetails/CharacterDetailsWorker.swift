@@ -10,7 +10,5 @@ import UIKit
 
 class CharacterDetailsWorker
 {
-  func doSomeWork()
-  {
-  }
+
 }
